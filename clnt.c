@@ -27,7 +27,7 @@ int main(int argc,char* argv[])//argc表示输入参数数量，argv[]不太理�
     serv_addr.sin_port=htons(atoi(argv[2]));
     if(connect(sock,(struct sockaddr*)&serv_addr,sizeof(serv_addr))==-1)
         error_handling("connect()error!");
-    str_len=read(sock,message0,sizeof(message0)-1);
+    str_len=read(sock,message0,sizeof(message0));
     if(str_len==-1)
         error_handling("read()error!");
     printf("message from server: %s",message0);
@@ -38,6 +38,10 @@ int main(int argc,char* argv[])//argc表示输入参数数量，argv[]不太理�
         write(sock,p,sizeof(num));
         write(sock,message1,sizeof(message1));
         if(strncmp(message1,"END",3)==0) break;
+        str_len=read(sock,message0,sizeof(message0));
+        printf("message from server: %s",message0);
+    if(str_len==-1)
+        error_handling("read()error!");
     }
     close(sock);
     return 0;
